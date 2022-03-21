@@ -134,7 +134,7 @@ namespace CardGame
 
     class Card
     {
-        private static Random random = new Random();
+        private static Random _random;
         private RanksOfCard _rank;
         private SuitsOfCard _suit;
 
@@ -149,8 +149,9 @@ namespace CardGame
 
         public Card()
         {
-            _rank = (RanksOfCard)random.Next(Enum.GetValues(typeof(RanksOfCard)).Length);
-            _suit = (SuitsOfCard)random.Next(Enum.GetValues(typeof(SuitsOfCard)).Length);
+            _random = new Random();
+            _rank = (RanksOfCard)_random.Next(Enum.GetValues(typeof(RanksOfCard)).Length);
+            _suit = (SuitsOfCard)_random.Next(Enum.GetValues(typeof(SuitsOfCard)).Length);
         }
 
         public void ShowCardInfo()
