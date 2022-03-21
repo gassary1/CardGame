@@ -45,14 +45,7 @@ namespace CardGame
                     Console.Write("Введите количество карт: ");
                     countOfCards = GetNumber();
 
-                    if (rankOfCard<Enum.GetNames(typeof(RanksOfCard)).Length && suitOfCard < Enum.GetNames(typeof(SuitsOfCard)).Length)
-                    {
-                        player.AddConcreteCards((RanksOfCard)rankOfCard, (SuitsOfCard)suitOfCard, countOfCards);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Такой карты не существует");
-                    }
+                    player.AddConcreteCards(rankOfCard, suitOfCard, countOfCards);
                 }
                 else if (userOption == ConsoleKey.D3)
                 {
@@ -73,6 +66,7 @@ namespace CardGame
         static void ShowRanksOfCardInfo()
         {
             int index = 0;
+
             foreach (var rank in Enum.GetNames(typeof(RanksOfCard)))
             {
                 Console.WriteLine($"{index++} {rank.ToString()}");
@@ -82,6 +76,7 @@ namespace CardGame
         static void ShowSuitsOfCardInfo()
         {
             int index = 0;
+
             foreach (var suit in Enum.GetNames(typeof(SuitsOfCard)))
             {
                 Console.WriteLine($"{index++} {suit.ToString()}");
@@ -191,12 +186,26 @@ namespace CardGame
 
         public void AddRandomCards(int count)
         {
-            _decks.Add(new Deck(new Card(), count));
+            if (count>0)
+            {
+                _decks.Add(new Deck(new Card(), count));
+            }
+            else
+            {
+                Console.WriteLine("Количество карт некорректно");
+            }
         }
 
-        public void AddConcreteCards(RanksOfCard rank, SuitsOfCard suit, int count)
+        public void AddConcreteCards(int rank, int suit, int count)
         {
-            _decks.Add(new Deck(new Card(rank, suit), count));
+            if (rank < Enum.GetNames(typeof(RanksOfCard)).Length && suit < Enum.GetNames(typeof(SuitsOfCard)).Length && count > 0)
+            {
+                _decks.Add(new Deck(new Card((RanksOfCard)rank, (SuitsOfCard)suit), count));
+            }
+            else
+            {
+                Console.WriteLine("Такой карты не существует или количество меньше 0");
+            }
         }
 
         public void ShowPlayerDecks()
